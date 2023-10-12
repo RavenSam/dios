@@ -10,19 +10,22 @@ import Placeholder from "@tiptap/extension-placeholder"
 
 export default function Editor() {
    const editor = useEditor({
-      extensions: [StarterKit, Typography, Underline, Placeholder.configure({ placeholder: 'Write your card description …' })],
+      extensions: [
+         StarterKit,
+         Typography,
+         Underline,
+         Placeholder.configure({ placeholder: "Write your card description …" }),
+      ],
       content: "",
-      
    })
 
    return (
       <div className="border rounded-lg">
-        <div className="p-1">
+         <div className="p-1">
+            <EditorMenu editor={editor} />
+         </div>
 
-         <EditorMenu editor={editor} />
-        </div>
-
-         <EditorContent editor={editor} className="max-h-[60vh] overflow-auto p-2"/>
+         <EditorContent editor={editor} className="prose max-h-[60vh] overflow-auto px-2 py-6" />
       </div>
    )
 }

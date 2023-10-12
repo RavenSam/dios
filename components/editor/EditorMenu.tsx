@@ -1,55 +1,90 @@
-import { BubbleMenu, Editor } from "@tiptap/react"
-import { Italic, Bold, Strikethrough, Underline, Code } from "lucide-react"
-
+import { Editor } from "@tiptap/react"
+import { Redo, Undo } from "lucide-react"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Toggle } from "@/components/ui/toggle"
+import { Button } from "@/components/ui/button"
+import { useEffect, useState } from "react"
+import { menuList, textList } from "@/components/editor/menu-lists"
 
-interface EditorMenuProps {
+interface Props {
    editor: Editor | null
 }
 
-export default function EditorMenu({ editor }: EditorMenuProps) {
+export default function EditorMenu({ editor }: Props) {
    if (!editor) return null
-
-   const menuList = [
-      {
-         label: "Toggle bold",
-         icon: Bold,
-         handler: () => editor.chain().focus().toggleBold().run(),
-      },
-      {
-         label: "Toggle italic",
-         icon: Italic,
-         handler: () => editor.chain().focus().toggleItalic().run(),
-      },
-      {
-         label: "Toggle underline",
-         icon: Underline,
-         handler: () => editor.chain().focus().toggleUnderline().run(),
-      },
-      {
-         label: "Toggle strikethrough",
-         icon: Strikethrough,
-         handler: () => editor.chain().focus().toggleStrike().run(),
-      },
-      {
-         label: "Toggle code",
-         icon: Code,
-         handler: () => editor.chain().focus().toggleCode().run(),
-      },
-   ]
 
    return (
       <div className="flex items-center space-x-1">
-         {menuList.map((item) => (
+         <SelectMarkText editor={editor} />
+
+         {/* <div className="border-l h-5 !mx-2" /> */}
+
+         {menuList(editor).map((item) => (
             <Toggle
                key={item.label}
                onClick={item.handler}
                aria-label={item.label}
-               className="data-[state=on]:text-white data-[state=on]:bg-purple-400"
+               pressed={editor.isActive(item.label)}
+               className="data-[state=on]:text-white data-[state=on]:bg-purple-400 transition-none"
             >
                <item.icon className="h-4 w-4" />
             </Toggle>
          ))}
+
+         <div className="!ml-auto" />
+
+         <Button
+            aria-label="Undo"
+            size={"icon"}
+            variant={"ghost"}
+            onClick={() => editor.chain().focus().undo().run()}
+            disabled={!editor.can().chain().focus().undo().run()}
+         >
+            <Undo className="h-4 w-4" />
+         </Button>
+
+         <Button
+            aria-label="Redo"
+            size={"icon"}
+            variant={"ghost"}
+            onClick={() => editor.chain().focus().redo().run()}
+            disabled={!editor.can().chain().focus().redo().run()}
+         >
+            <Redo className="h-4 w-4" />
+         </Button>
       </div>
+   )
+}
+
+function SelectMarkText({ editor }: { editor: Editor }) {
+   const [selected, setSelected] = useState("paragraph")
+   const selections = textList(editor)
+
+   useEffect(() => {
+      const { label } = selections.find((el) => (el.isActive ? el.isActive : editor?.isActive(el.label)))!
+
+      setSelected(label)
+   }, [editor, selections])
+
+   const handleChange = (value: string) => {
+      selections.find((el) => el.label === value)?.handler()
+      setTimeout(() => {
+         editor.commands.focus()
+      }, 150)
+   }
+
+   return (
+      <Select value={selected} onValueChange={handleChange}>
+         <SelectTrigger className="w-[50px]">
+            <SelectValue />
+         </SelectTrigger>
+         <SelectContent >
+            {selections.map((item) => (
+               <SelectItem key={item.label} value={item.label} className="data-[state=checked]:text-white data-[state=checked]:bg-purple-400 data-[state=checked]:shadow">
+                  <item.icon className="h-5 w-5" />
+               </SelectItem>
+            ))}
+         </SelectContent>
+      </Select>
    )
 }

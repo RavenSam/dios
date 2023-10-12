@@ -94,3 +94,28 @@
    height: 0;
    pointer-events: none;
  }
+
+
+/* -- Nested List  -- */
+
+/* Set the first layer of list items to regular numeric decimals */
+.prose ol {
+   list-style-type: decimal;
+}
+
+/* Set the second layer of list items to lowercase alphabetic */
+.prose ol > li > ol {
+   list-style-type: lower-alpha;
+}
+
+/* Set the third layer of list items to uppercase Roman numerals */
+.prose ol > li > ol > li > ol {
+   list-style-type: upper-roman;
+}
+
+.prose ul,
+.prose ol {
+   padding-left: 3rem;
+}
+
+/* -- Nested List  -- */
