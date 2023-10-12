@@ -1,4 +1,5 @@
 import { Models } from "appwrite"
+import { DraggableProvidedDragHandleProps, DraggableProvidedDraggableProps } from "react-beautiful-dnd"
 
 export interface Board {
    columns: Map<TypedColumn, Column>
@@ -15,6 +16,7 @@ export interface Todo extends Models.Document {
    $id: string
    $createdAt: string
    title: string
+   description: string
    status: TypedColumn
    image?: Image
 }
@@ -28,4 +30,13 @@ export interface ColumnProps {
    id: TypedColumn
    todos: Todo[]
    index: number
+}
+
+export interface TodoCardProps {
+   id: TypedColumn
+   index: number
+   todo: Todo
+   draggableProps: DraggableProvidedDraggableProps
+   dragHandleProps: DraggableProvidedDragHandleProps | null | undefined
+   innerRef: (element: HTMLElement | null) => void
 }

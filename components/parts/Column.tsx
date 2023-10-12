@@ -1,8 +1,17 @@
-import { ColumnProps } from "@/type"
+import { ColumnProps, TypedColumn } from "@/type"
 import { Draggable, Droppable } from "react-beautiful-dnd"
-import Task from "@/components/parts/Task"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { cn } from "@/lib/utils"
+import TodoCard from "@/components/parts/TodoCard"
+import { Button } from "@/components/ui/button"
+import { Plus } from "lucide-react"
+
+const idToText: {
+   [key in TypedColumn]: string
+} = {
+   todo: "To Do",
+   inprogress: "In Progress",
+   done: "Done",
+}
 
 export default function Column({ id, todos, index }: ColumnProps) {
    return (
@@ -11,15 +20,45 @@ export default function Column({ id, todos, index }: ColumnProps) {
             <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
                <Droppable droppableId={index.toString()} type="card">
                   {(provided, snapshot) => (
-                     <div
+                     <Card
                         {...provided.droppableProps}
                         ref={provided.innerRef}
-                        className={`p-2 rounded-lg shadow-sm ${
-                           snapshot.isDraggingOver ? "bg-green-200" : "bg-black/50"
-                        }`}
+                        className={`p-2 rounded-lg shadow-sm ${snapshot.isDraggingOver ? "bg-purple-100" : "bg-muted"}`}
                      >
-                        {id}
-                     </div>
+                        <CardHeader className="px-2 py-4 ">
+                           <CardTitle className="flex items-center justify-between">
+                              {idToText[id]}
+                              <span className="ml-auto text-xs font-medium bg-foreground/40 rounded-full px-2 py-1 text-background opacity-50">
+                                 {todos.length}
+                              </span>
+                           </CardTitle>
+                        </CardHeader>
+
+                        <CardContent className="p-2 space-y-2">
+                           {todos.map((todo, index) => (
+                              <Draggable key={todo.$id} draggableId={todo.$id} index={index}>
+                                 {(provided) => (
+                                    <TodoCard
+                                       id={id}
+                                       index={index}
+                                       todo={todo}
+                                       draggableProps={provided.draggableProps}
+                                       dragHandleProps={provided.dragHandleProps}
+                                       innerRef={provided.innerRef}
+                                    />
+                                 )}
+                              </Draggable>
+                           ))}
+
+                           {provided.placeholder}
+                        </CardContent>
+
+                        <CardFooter className="px-2 pb-1 ">
+                           <Button aria-label="new" variant={"outline"} className="w-full roundxl">
+                              <Plus className="w-5 h-5" />
+                           </Button>
+                        </CardFooter>
+                     </Card>
                   )}
                </Droppable>
             </div>
