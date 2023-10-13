@@ -15,6 +15,7 @@ export default function Board() {
       console.log(result)
    }
 
+
    return (
       <Suspense fallback={<Loading />}>
          <DragDropContext onDragEnd={handleOnDragEnd}>

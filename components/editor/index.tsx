@@ -8,7 +8,7 @@ import Typography from "@tiptap/extension-typography"
 import Underline from "@tiptap/extension-underline"
 import Placeholder from "@tiptap/extension-placeholder"
 
-export default function Editor() {
+export default function Editor({ content }: { content: string | undefined }) {
    const editor = useEditor({
       extensions: [
          StarterKit,
@@ -16,7 +16,7 @@ export default function Editor() {
          Underline,
          Placeholder.configure({ placeholder: "Write your card description …" }),
       ],
-      content: "",
+      content,
    })
 
    return (

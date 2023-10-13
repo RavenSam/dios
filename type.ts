@@ -16,7 +16,7 @@ export interface Todo extends Models.Document {
    $id: string
    $createdAt: string
    title: string
-   description: string
+   description?: string
    status: TypedColumn
    image?: Image
 }

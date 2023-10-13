@@ -14,7 +14,7 @@ export default function TodoCard(props: TodoCardProps) {
          <div className="flex justify-between">
             <div className="">
                <h4>
-                  {props.todo.title} {props.todo.title}
+                  {props.todo.title}
                </h4>
             </div>
 

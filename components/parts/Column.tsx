@@ -4,6 +4,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import TodoCard from "@/components/parts/TodoCard"
 import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
 
 const idToText: {
    [key in TypedColumn]: string
@@ -28,9 +29,8 @@ export default function Column({ id, todos, index }: ColumnProps) {
                         <CardHeader className="px-2 py-4 ">
                            <CardTitle className="flex items-center justify-between">
                               {idToText[id]}
-                              <span className="ml-auto text-xs font-medium bg-foreground/40 rounded-full px-2 py-1 text-background opacity-50">
-                                 {todos.length}
-                              </span>
+
+                              <Badge variant="outline">{todos.length}</Badge>
                            </CardTitle>
                         </CardHeader>
 
