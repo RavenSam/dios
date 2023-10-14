@@ -26,7 +26,7 @@ export default function Navbar() {
                <span className="tracking-widest font-semibold">Dos.</span>
             </div>
 
-            <div className="flex items-center gap-3 md:gap-6">
+            <div className="flex items-center gap-3">
                <form onSubmit={handleSearch} className="border rounded-lg flex items-center relative ">
                   <Input
                      className="border-none pr-8 bg-slate-100 hover:bg-slate-200 focus:bg-background duration-300 transition"

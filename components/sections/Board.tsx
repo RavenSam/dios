@@ -2,23 +2,19 @@
 
 import { useBoadStore } from "@/store"
 import { Suspense, useEffect } from "react"
-import { DragDropContext, DropResult, Droppable } from "react-beautiful-dnd"
+import { DragDropContext, Droppable } from "react-beautiful-dnd"
 import Column from "@/components/parts/Column"
 import Loading from "@/components/parts/Loading"
+import handleOnDragEnd from "@/utils/handleOnDragEnd"
 
 export default function Board() {
-   const { getBoard, board } = useBoadStore()
+   const { getBoard, board, setBoard, updateTodoInDB } = useBoadStore()
 
    useEffect(() => getBoard(), [getBoard])
 
-   const handleOnDragEnd = (result: DropResult) => {
-      console.log(result)
-   }
-
-
    return (
       <Suspense fallback={<Loading />}>
-         <DragDropContext onDragEnd={handleOnDragEnd}>
+         <DragDropContext onDragEnd={(result) => handleOnDragEnd(result, board, setBoard, updateTodoInDB)}>
             <Droppable droppableId="board" direction="horizontal" type="column">
                {(provided) => (
                   <div
