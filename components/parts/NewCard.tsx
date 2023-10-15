@@ -60,16 +60,17 @@ export function TaskRadioGroup({ id }: { id: TypedColumn }) {
    return (
       <RadioGroup onValueChange={handleChange} defaultValue={id}>
          {radioList.map((radio, index) => (
-            <div
+            <Label
                key={index}
+               htmlFor={(index + 1).toString()}
                className={cn(
-                  "flex items-center space-x-2 border px-3 py-6 rounded-lg",
-                  value == radio.value && "border-purple-600 bg-purple-100 shadow"
+                  "flex items-center space-x-2 border px-3 py-6 rounded-lg cursor-pointer",
+                  value == radio.value && "border-purple-600 bg-purple-50 shadow"
                )}
             >
                <RadioGroupItem value={radio.value} id={(index + 1).toString()} />
-               <Label htmlFor={(index + 1).toString()}>{radio.label}</Label>
-            </div>
+               <span >{radio.label}</span>
+            </Label>
          ))}
       </RadioGroup>
    )
