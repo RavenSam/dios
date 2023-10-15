@@ -78,7 +78,7 @@ export default function Column({ id, todos, index }: ColumnProps) {
                   </Droppable>
 
                   <CardFooter className="px-2 pb-1 ">
-                     <NewCard />
+                     <NewCard id={id}/>
                   </CardFooter>
                </Card>
             </div>
