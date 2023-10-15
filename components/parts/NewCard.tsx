@@ -6,8 +6,10 @@ import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { useBoadStore } from "@/store"
 import { TypedColumn } from "@/type"
+import { useState } from "react"
+import { cn } from "@/lib/utils"
 
-export default function NewCard({ id }:{id:TypedColumn}) {
+export default function NewCard({ id }: { id: TypedColumn }) {
    const { newTaskInput, setNewTaskInput } = useBoadStore()
 
    return (
@@ -34,7 +36,7 @@ export default function NewCard({ id }:{id:TypedColumn}) {
                />
             </div>
 
-            <TaskRadioGroup id={id}/>
+            <TaskRadioGroup id={id} />
 
             <DialogFooter></DialogFooter>
          </DialogContent>
@@ -42,17 +44,29 @@ export default function NewCard({ id }:{id:TypedColumn}) {
    )
 }
 
-export function TaskRadioGroup({ id }:{id:TypedColumn}) {
+export function TaskRadioGroup({ id }: { id: TypedColumn }) {
+   const [value, setValue] = useState<string>(id)
+
    const radioList = [
       { label: "To Do", value: "todo" },
       { label: "In Progress", value: "inprogress" },
       { label: "Done", value: "done" },
    ]
 
+   const handleChange = (value: string) => {
+      setValue(value)
+   }
+
    return (
-      <RadioGroup defaultValue={id}>
+      <RadioGroup onValueChange={handleChange} defaultValue={id}>
          {radioList.map((radio, index) => (
-            <div key={index} className="flex items-center space-x-2 border px-3 py-6 rounded-lg">
+            <div
+               key={index}
+               className={cn(
+                  "flex items-center space-x-2 border px-3 py-6 rounded-lg",
+                  value == radio.value && "border-purple-600 bg-purple-100 shadow"
+               )}
+            >
                <RadioGroupItem value={radio.value} id={(index + 1).toString()} />
                <Label htmlFor={(index + 1).toString()}>{radio.label}</Label>
             </div>
@@ -60,4 +74,3 @@ export function TaskRadioGroup({ id }:{id:TypedColumn}) {
       </RadioGroup>
    )
 }
-
