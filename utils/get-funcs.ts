@@ -1,5 +1,6 @@
-import { databases } from "@/appwrite"
+import { databases, getAccount } from "@/appwrite"
 import { Board, Column, TypedColumn } from "@/type"
+import { redirect } from "next/navigation"
 
 export const getTodosGroupedByColumn = async () => {
    const data = await databases.listDocuments(
@@ -48,4 +49,20 @@ export const getTodosGroupedByColumn = async () => {
    const board: Board = { columns: sortedColumns }
 
    return board
+}
+
+export const getSession = async () => {
+   try {
+      const user = await getAccount()
+
+      await fetch("/api/auth", {
+         method: "POST",
+         headers: { "Content-Type": "application/json"},
+         body: JSON.stringify({ user }),
+      })
+
+      return user
+   } catch (e) {
+      console.log(e)
+   }
 }

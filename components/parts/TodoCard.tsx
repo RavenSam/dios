@@ -1,7 +1,6 @@
 import { TodoCardProps } from "@/type"
-import  DeleteCard from "@/components/parts/DeleteCard"
+import DeleteCard from "@/components/parts/DeleteCard"
 import CardDetail from "@/components/parts/CardDetail"
-
 
 export default function TodoCard(props: TodoCardProps) {
    return (
@@ -13,14 +12,13 @@ export default function TodoCard(props: TodoCardProps) {
       >
          <div className="flex justify-between">
             <div className="">
-               <h4>
-                  {props.todo.title}
-               </h4>
+               <h4>{props.todo.title}</h4>
             </div>
 
             <div className="flex flex-col items-center pl-2 opacity-0 group-hover:opacity-100">
                <CardDetail todo={props.todo} />
-               <DeleteCard />
+
+               <DeleteCard todo={props.todo} id={props.id} taskIndex={props.index} />
             </div>
          </div>
       </div>

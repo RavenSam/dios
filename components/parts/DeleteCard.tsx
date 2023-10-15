@@ -11,8 +11,12 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Trash } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Todo, TypedColumn } from "@/type"
+import { useBoadStore } from "@/store"
 
-export default function DeleteCard() {
+export default function DeleteCard({ todo, taskIndex, id }: { todo: Todo, id: TypedColumn, taskIndex: number }) {
+   const { deleteTask } = useBoadStore()
+
    return (
       <AlertDialog>
          <AlertDialogTrigger asChild>
@@ -22,7 +26,7 @@ export default function DeleteCard() {
          </AlertDialogTrigger>
          <AlertDialogContent>
             <AlertDialogHeader>
-               <AlertDialogTitle>Delete Todo Card</AlertDialogTitle>
+               <AlertDialogTitle>Delete Task</AlertDialogTitle>
                <AlertDialogDescription>
                   This action cannot be undone. This will permanently delete your todo and remove your data from our
                   servers.
@@ -30,7 +34,9 @@ export default function DeleteCard() {
             </AlertDialogHeader>
             <AlertDialogFooter>
                <AlertDialogCancel>Cancel</AlertDialogCancel>
-               <AlertDialogAction className="bg-pink-600">Delete</AlertDialogAction>
+               <AlertDialogAction onClick={() => deleteTask(taskIndex, todo, id)} className="bg-pink-600">
+                  Delete
+               </AlertDialogAction>
             </AlertDialogFooter>
          </AlertDialogContent>
       </AlertDialog>

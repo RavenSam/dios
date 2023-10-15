@@ -12,7 +12,6 @@ import { Calendar, ClipboardList, Eye } from "lucide-react"
 import { format } from "date-fns"
 import { Todo } from "@/type"
 import Editor from "@/components/editor"
-import { Badge } from "@/components/ui/badge"
 
 export default function CardDetail({ todo }: { todo: Todo }) {
    return (
@@ -24,23 +23,20 @@ export default function CardDetail({ todo }: { todo: Todo }) {
          </DialogTrigger>
          <DialogContent className="max-w-[600px]">
             <DialogHeader>
-               <DialogTitle>
-                  {todo.title}
-               </DialogTitle>
+               <DialogTitle>{todo.title}</DialogTitle>
                <DialogDescription className="">
                   <div className="flex items-center gap-1">
+                     <span className="text-xs flex items-center">
+                        <ClipboardList className="w-4 h-4 mr-1" />
+                        {todo.status}
+                     </span>
 
-                  <span className="text-xs flex items-center">
-                     <ClipboardList className="w-4 h-4 mr-1" />
-                     {todo.status}
-                  </span>
+                     <span className="text-purple-500/50">•</span>
 
-                  <span className="text-purple-500">•</span>
-
-                  <span className="text-xs flex items-center">
-                     <Calendar className="w-4 h-4 mr-1" />
-                     {format(new Date(todo.$createdAt), "PPP")}
-                  </span>
+                     <span className="text-xs flex items-center">
+                        <Calendar className="w-4 h-4 mr-1" />
+                        {format(new Date(todo.$createdAt), "PPP")}
+                     </span>
                   </div>
                </DialogDescription>
 

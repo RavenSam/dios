@@ -2,10 +2,10 @@ import { ColumnProps, TypedColumn } from "@/type"
 import { Draggable, Droppable } from "react-beautiful-dnd"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import TodoCard from "@/components/parts/TodoCard"
-import { Button } from "@/components/ui/button"
-import { Plus } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { useState } from "react"
+import { useBoadStore } from "@/store"
+import NewCard from "@/components/parts/NewCard"
 
 const idToText: {
    [key in TypedColumn]: string
@@ -17,6 +17,7 @@ const idToText: {
 
 export default function Column({ id, todos, index }: ColumnProps) {
    const [dragging, setDragging] = useState(false)
+   const { searchString } = useBoadStore()
 
    return (
       <Draggable draggableId={id} index={index}>
@@ -27,7 +28,13 @@ export default function Column({ id, todos, index }: ColumnProps) {
                      <CardTitle className="flex items-center justify-between">
                         {idToText[id]}
 
-                        <Badge variant="outline">{todos.length}</Badge>
+                        <Badge variant="outline">
+                           {!searchString
+                              ? todos.length
+                              : todos.filter((todo) =>
+                                   todo.title.toLocaleLowerCase().includes(searchString.toLocaleLowerCase())
+                                ).length}
+                        </Badge>
                      </CardTitle>
                   </CardHeader>
 
@@ -41,20 +48,28 @@ export default function Column({ id, todos, index }: ColumnProps) {
                               ref={provided.innerRef}
                               className={`p-2 space-y-2  `}
                            >
-                              {todos.map((todo, index) => (
-                                 <Draggable key={todo.$id} draggableId={todo.$id} index={index}>
-                                    {(provided) => (
-                                       <TodoCard
-                                          id={id}
-                                          index={index}
-                                          todo={todo}
-                                          draggableProps={provided.draggableProps}
-                                          dragHandleProps={provided.dragHandleProps}
-                                          innerRef={provided.innerRef}
-                                       />
-                                    )}
-                                 </Draggable>
-                              ))}
+                              {todos.map((todo, index) => {
+                                 if (
+                                    searchString &&
+                                    !todo.title.toLocaleLowerCase().includes(searchString.toLocaleLowerCase())
+                                 )
+                                    return
+
+                                 return (
+                                    <Draggable key={todo.$id} draggableId={todo.$id} index={index}>
+                                       {(provided) => (
+                                          <TodoCard
+                                             id={id}
+                                             index={index}
+                                             todo={todo}
+                                             draggableProps={provided.draggableProps}
+                                             dragHandleProps={provided.dragHandleProps}
+                                             innerRef={provided.innerRef}
+                                          />
+                                       )}
+                                    </Draggable>
+                                 )
+                              })}
 
                               {provided.placeholder}
                            </CardContent>
@@ -63,9 +78,7 @@ export default function Column({ id, todos, index }: ColumnProps) {
                   </Droppable>
 
                   <CardFooter className="px-2 pb-1 ">
-                     <Button aria-label="new" variant={"outline"} className="w-full roundxl">
-                        <Plus className="w-5 h-5" />
-                     </Button>
+                     <NewCard />
                   </CardFooter>
                </Card>
             </div>

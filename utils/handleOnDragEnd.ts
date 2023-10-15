@@ -56,7 +56,7 @@ export default function handleOnDragEnd(
       const newCol = { id: startCol.id, todos: newTodos }
 
       newColumns.set(startCol.id, newCol)
-      newColumns.set(endCol.id, { id: endCol.id, todos: endTodos })
+      newColumns.set(endCol.id, { id: endCol.id, todos: endTodos.map((todo) => ({ ...todo, status: endCol.id })) })
 
       updateTodoInDB(todoMoved, endCol.id)
 
