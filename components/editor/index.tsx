@@ -25,7 +25,7 @@ export default function Editor({ content }: { content: string | undefined }) {
             <EditorMenu editor={editor} />
          </div>
 
-         <EditorContent editor={editor} className="prose max-h-[60vh] overflow-auto px-2 py-6" />
+         <EditorContent editor={editor} className="prose max-h-[30vh] overflow-auto px-2 py-6" />
       </div>
    )
 }

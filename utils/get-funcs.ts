@@ -1,6 +1,5 @@
-import { databases, getAccount } from "@/appwrite"
-import { Board, Column, TypedColumn } from "@/type"
-import { redirect } from "next/navigation"
+import { databases, getAccount, storage } from "@/appwrite"
+import { Board, Column, Image, TypedColumn } from "@/type"
 
 export const getTodosGroupedByColumn = async () => {
    const data = await databases.listDocuments(
@@ -26,7 +25,7 @@ export const getTodosGroupedByColumn = async () => {
          title: todo.title,
          status: todo.status,
          description: todo.description,
-         ...(todo.image && { image: JSON.parse(todo.image.fileId) }),
+         ...(todo.image && { image: JSON.parse(todo.image) }),
       })
 
       return acc
@@ -57,7 +56,7 @@ export const getSession = async () => {
 
       await fetch("/api/auth", {
          method: "POST",
-         headers: { "Content-Type": "application/json"},
+         headers: { "Content-Type": "application/json" },
          body: JSON.stringify({ user }),
       })
 
@@ -65,4 +64,8 @@ export const getSession = async () => {
    } catch (e) {
       console.log(e)
    }
+}
+
+export const getImgUrl = async (image: Image) => {
+   return await storage.getFilePreview(image.bucketId, image.fileId)
 }

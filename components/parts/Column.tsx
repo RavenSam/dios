@@ -19,6 +19,7 @@ export default function Column({ id, todos, index }: ColumnProps) {
    const [dragging, setDragging] = useState(false)
    const { searchString } = useBoadStore()
 
+
    return (
       <Draggable draggableId={id} index={index}>
          {(provided) => (

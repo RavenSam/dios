@@ -12,8 +12,23 @@ import { Calendar, ClipboardList, Eye } from "lucide-react"
 import { format } from "date-fns"
 import { Todo } from "@/type"
 import Editor from "@/components/editor"
+import { useEffect, useState } from "react"
+import { getImgUrl } from "@/utils/get-funcs"
+import Image from "next/image"
 
 export default function CardDetail({ todo }: { todo: Todo }) {
+   const [imgUrl, setImgUrl] = useState<string | null>(null)
+
+   useEffect(() => {
+      if (todo.image) {
+         const fetchImg = async () => {
+            const url = await getImgUrl(todo.image!)
+            setImgUrl(url.toString())
+         }
+         fetchImg()
+      }
+   }, [todo])
+
    return (
       <Dialog>
          <DialogTrigger asChild>
@@ -39,11 +54,23 @@ export default function CardDetail({ todo }: { todo: Todo }) {
                      </span>
                   </div>
                </DialogDescription>
-
-               <div className="py-4 ">
-                  <Editor content={todo.description} />
-               </div>
             </DialogHeader>
+
+            {imgUrl && (
+               <div className="relative rounded-xl overflow-hidden w-full max-h-52">
+                  <Image
+                     src={imgUrl}
+                     alt="task image"
+                     width={500}
+                     height={200}
+                     className="w-full h-full object-cover"
+                  />
+               </div>
+            )}
+
+            <div className="py-4 ">
+               <Editor content={todo.description} />
+            </div>
 
             <DialogFooter>
                <Button type="submit">Save changes</Button>
