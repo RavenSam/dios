@@ -50,8 +50,7 @@ export default function SignUp() {
 
                <div className="absolute rounded-2xl bottom-4 left-4 right-4 p-4 bg-white/20 text-white backdrop-blur shadow">
                   <p className="drop-shadow-xl">
-                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat dignissimos animi quasi non sit.
-                     Commodi error animi quam maxime quis.
+                     Join us and unlock the power of efficient task management! Sign up today to start creating boards, organizing tasks, and collaborating with ease. Experience the simplicity of staying on top of your projects, whether at work or at home. Get started now and revolutionize the way you work.
                   </p>
                </div>
             </div>
