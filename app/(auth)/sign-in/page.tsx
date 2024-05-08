@@ -48,8 +48,7 @@ export default function SignIn() {
 
                <div className="absolute rounded-2xl bottom-4 left-4 right-4 p-4 bg-white/20 text-white backdrop-blur shadow">
                   <p className="drop-shadow-xl">
-                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat dignissimos animi quasi non sit.
-                     Commodi error animi quam maxime quis.
+                     Ready to pick up where you left off? Log in now to access your boards, manage tasks, and collaborate seamlessly with your team. Stay organized, stay productive.
                   </p>
                </div>
             </div>
